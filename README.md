@@ -11,16 +11,15 @@ approach.
 
 ## Installation
 
-To install the plugin clone the repo from github and migrate the database:
+To install the plugin clone the repo
 
 ```
 cd /path/to/redmine/
 git clone git://github.com/dkalachov/redmine_email_images.git plugins/redmine_email_images
-bundle
-rake redmine:plugins:migrate RAILS_ENV=production
+bundle install
 ```
 
 ## Compatibility
 
-The latest version of this plugin is only tested with Redmine 2.6-stable and 3.0-stable.
+The latest version of this plugin is only tested with Redmine 2.6-stable and 3.3-stable.
 
