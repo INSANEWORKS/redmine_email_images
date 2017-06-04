@@ -1,11 +1,13 @@
 require 'pathname'
 
 class InlineImagesEmailInterceptor
+  RECIPIENT_EMAIL_ADDRS_FIELDS = %w{to_addrs cc_addrs bcc_addrs}
+  
   def self.delivering_email(message)
     text_part = message.text_part
     html_part = message.html_part
 
-    if html_part
+    if html_part && self.all_recipients_safe?(message)
       related = Mail::Part.new
       related.content_type = 'multipart/related'
       related.add_part html_part
@@ -33,6 +35,13 @@ class InlineImagesEmailInterceptor
       message.parts << related
     end
   end
+  
+  def self.all_recipients_safe?(message)
+    email_filter = Regexp.new(Setting.plugin_redmine_email_images['email_filter'], Regexp::IGNORECASE)
+    recipient_email_addrs = RECIPIENT_EMAIL_ADDRS_FIELDS.flat_map {|addr| message.send(addr) }
+    recipient_email_addrs.all? { |email| email.match(email_filter) }
+  end
+  
 end
 
 ActionMailer::Base.register_interceptor(InlineImagesEmailInterceptor)

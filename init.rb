@@ -11,4 +11,5 @@ Redmine::Plugin.register :redmine_email_images do
   version '0.2.0'
   url 'http://github.com/dkalachov/redmine_email_images'
   author_url 'http://dkalachov.com'
+  settings :default => { email_filter: '' } , :partial => 'redmine_email_images/settings'
 end
