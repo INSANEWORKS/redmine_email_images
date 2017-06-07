@@ -15,11 +15,10 @@ To install the plugin clone the repo
 
 ```
 cd /path/to/redmine/
-git clone git://github.com/dkalachov/redmine_email_images.git plugins/redmine_email_images
+git clone git@github.com:INSANEWORKS/redmine_email_images.git plugins/redmine_email_images
 bundle install
 ```
 
 ## Compatibility
 
 The latest version of this plugin is only tested with Redmine 2.6-stable and 3.3-stable.
-
