@@ -1,6 +1,14 @@
-<p>
-  <%= label_tag l(:label_email_recipient_security) + ':' %>
-  / <%= text_field_tag('settings[email_filter]', settings[:email_filter], placeholder: 'regex...') %> /i
-  <%= l(:label_email_recipient_description_default) %>
-  <em class="info"><%= l(:label_email_recipient_description) %></em>
-</p>
+<% settings = {} unless settings.is_a? Hash %>
+
+<div class="splitcontent">
+
+  <fieldset class="box tabular">
+    <legend><strong>Email Recipient Security</strong></legend>
+    Only include images if all email recipients in a single email (to/cc/bcc) match:  
+    <p>
+      <%= label_tag 'email_filter', 'All Recipient Emails Must Match:' %>
+      / <%= text_field_tag('settings[email_filter]', settings[:email_filter], placeholder: 'regex...') %> /i 
+    </p>
+    <p>default is blank (no security)</p>
+  </fieldset>  
+</div>

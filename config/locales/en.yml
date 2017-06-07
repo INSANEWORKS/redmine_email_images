@@ -1,5 +1,0 @@
-# English strings go here for Rails i18n
-en:
-  label_email_recipient_security: "All Recipient Emails Must Match"
-  label_email_recipient_description: "Only include images if all email recipients in a single email (to/cc/bcc) match"
-  label_email_recipient_description_default: "default: blank (no security)"
