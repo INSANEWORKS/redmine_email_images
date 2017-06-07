@@ -1,0 +1,5 @@
+# Japanese strings go here for Rails i18n
+ja:
+  label_email_recipient_security: "アドレスマッチ"
+  label_email_recipient_description: "(to/cc/bcc/)の送信先が正規表現にマッチする場合のみインラインでをイメージを添付"
+  label_email_recipient_description_default: "デフォルト: なし (マッチを行わない)"
