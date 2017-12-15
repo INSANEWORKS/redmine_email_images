@@ -23,14 +23,22 @@ class InlineImagesEmailInterceptor
         $1 << attachment_url << $3
       end
 
+      alt_parts = message.parts
+      message.parts.each do |part|
+        if part.content_type.starts_with?('multipart/alternative')
+          alt_parts = part.parts
+          break
+        end
+      end
+
       # multipart/alternative
       # - text/plain
       # - multipart/relative
       # -- text/html
       # -- image/*
-      message.parts.clear
-      message.parts << text_part
-      message.parts << related
+      alt_parts.clear
+      alt_parts << text_part
+      alt_parts << related
     end
   end
 end
