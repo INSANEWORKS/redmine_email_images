@@ -1,6 +1,6 @@
 require 'htmlentities'
 coder = HTMLEntities.new
-FIND_IMG_SRC_PATTERN = /(<img[^>]+src=")((?:#{Setting.protocol + "://" + Setting.host_name + Redmine::Utils.relative_url_root})[^"]+)("[^>]*>)/
+FIND_IMG_SRC_PATTERN = /(<img[^>]+src=")((?:#{Setting.protocol + "://[^/]+" + Redmine::Utils.relative_url_root})[^"]+)("[^>]*>)/
 
 require 'email_send_patch'
 
