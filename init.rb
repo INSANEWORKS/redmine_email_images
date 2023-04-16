@@ -2,8 +2,6 @@ require 'htmlentities'
 coder = HTMLEntities.new
 FIND_IMG_SRC_PATTERN = /(<img[^>]+src=")((?:#{Setting.protocol + "://[^/]+" + Redmine::Utils.relative_url_root})[^"]+)("[^>]*>)/
 
-require 'email_send_patch'
-
 Redmine::Plugin.register :redmine_email_images do
   name 'Redmine Email Images plugin'
   author 'Dmitriy Kalachev'

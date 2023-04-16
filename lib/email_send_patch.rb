@@ -1,6 +1,6 @@
 require 'pathname'
 
-class InlineImagesEmailInterceptor
+class EmailSendPatch
   def self.delivering_email(message)
     text_part = message.text_part
     html_part = message.html_part
@@ -43,5 +43,5 @@ class InlineImagesEmailInterceptor
   end
 end
 
-ActionMailer::Base.register_interceptor(InlineImagesEmailInterceptor)
+ActionMailer::Base.register_interceptor(EmailSendPatch)
 
