@@ -10,6 +10,7 @@ class EmailSendPatch
       related.content_type = 'multipart/related'
       related.add_part html_part
       html_part.body = html_part.body.to_s.gsub(/<body[^>]*>/, "\\0 ")
+      html_part.body = html_part.body.to_s.gsub(/srcset="*"/, "")
       html_part.body = html_part.body.to_s.gsub(FIND_IMG_SRC_PATTERN) do
         image_url = $2
         attachment_url = image_url

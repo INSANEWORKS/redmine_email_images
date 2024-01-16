@@ -21,4 +21,4 @@ bundle install
 
 ## Compatibility
 
-The latest version of this plugin is only tested with Redmine 5.
+The latest version of this plugin is only tested with Redmine 5.1
