@@ -14,7 +14,7 @@ class EmailSendPatch
       html_part.body = html_part.body.to_s.gsub(FIND_IMG_SRC_PATTERN) do
         image_url = $2
         attachment_url = image_url
-        attachment_object = Attachment.where(:id => Pathname.new(image_url).basename.to_s).first
+        attachment_object = Attachment.where(:id => Pathname.new(image_url).dirname.basename.to_s).first
         if attachment_object
           image_name = attachment_object.filename
           related.attachments.inline[image_name] = File.read(attachment_object.diskfile)
