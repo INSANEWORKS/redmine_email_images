@@ -12,16 +12,31 @@ class EmailSendPatch
       html_part.body = html_part.body.to_s.gsub(/<body[^>]*>/, "\\0 ")
       html_part.body = html_part.body.to_s.gsub(/srcset="*"/, "")
       html_part.body = html_part.body.to_s.gsub(FIND_IMG_SRC_PATTERN) do
+        before_src = $1
         image_url = $2
+        after_src = $3
+
         attachment_url = image_url
         attachment_object = Attachment.where(:id => Pathname.new(image_url).dirname.basename.to_s).first
+
         if attachment_object
           image_name = attachment_object.filename + "|" + SecureRandom.hex
-          related.attachments.inline[image_name] = File.binread(attachment_object.diskfile)
-          attachment_url = related.attachments[image_name].url
+
+          match_thumbnail = image_url.match(%r{/attachments/thumbnail/\d+/(\d+)$})
+          if match_thumbnail
+            thumbnail_size = match_thumbnail[1].to_i
+            image_path = attachment_object.thumbnail({size: thumbnail_size})
+          else
+            image_path = attachment_object.diskfile
+          end
+
+          if image_path && File.exist?(image_path)
+            related.attachments.inline[image_name] = File.binread(image_path)
+            attachment_url = related.attachments[image_name].url
+          end
         end
 
-        $1 << attachment_url << $3
+        before_src << attachment_url << after_src
       end
 
       alt_parts = message.parts
