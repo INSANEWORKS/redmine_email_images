@@ -16,7 +16,7 @@ class EmailSendPatch
         attachment_url = image_url
         attachment_object = Attachment.where(:id => Pathname.new(image_url).dirname.basename.to_s).first
         if attachment_object
-          image_name = attachment_object.filename
+          image_name = attachment_object.filename + "|" + SecureRandom.hex
           related.attachments.inline[image_name] = File.binread(attachment_object.diskfile)
           attachment_url = related.attachments[image_name].url
         end
