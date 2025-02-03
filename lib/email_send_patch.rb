@@ -17,22 +17,33 @@ class EmailSendPatch
         after_src = $3
 
         attachment_url = image_url
-        attachment_object = Attachment.where(:id => Pathname.new(image_url).dirname.basename.to_s).first
+        attachment_id = Pathname.new(image_url).dirname.basename.to_s
+        attachment_object = Attachment.where(:id => attachment_id).first
 
         if attachment_object
-          image_name = attachment_object.filename + "|" + SecureRandom.hex
+          basename = File.basename(attachment_object.filename, ".*")
+          extname = File.extname(attachment_object.filename)
 
+          # Note: image_name = [basename]_[attachment_id]_[thumbnail_size][extname]
           match_thumbnail = image_url.match(%r{/attachments/thumbnail/\d+/(\d+)$})
           if match_thumbnail
             thumbnail_size = match_thumbnail[1].to_i
+            image_name = "#{basename}_#{attachment_id}_#{thumbnail_size}#{extname}"
             image_path = attachment_object.thumbnail({size: thumbnail_size})
           else
+            image_name = "#{basename}_#{attachment_id}#{extname}"
             image_path = attachment_object.diskfile
           end
 
-          if image_path && File.exist?(image_path)
-            related.attachments.inline[image_name] = File.binread(image_path)
+          if related.attachments[image_name]
+            # Using existing attachment if it was already added
             attachment_url = related.attachments[image_name].url
+          else
+            if image_path && File.exist?(image_path)
+              # Adding inline attachment
+              related.attachments.inline[image_name] = File.binread(image_path)
+              attachment_url = related.attachments[image_name].url
+            end
           end
         end
 
